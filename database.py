@@ -7,7 +7,10 @@ import sqlite3
 from pathlib import Path
 from datetime import datetime
 
-DB_PATH = Path(__file__).parent / "data" / "store.db"
+import os
+# On Render the persistent disk is mounted at /data; locally use project/data/
+_data_dir = Path("/data") if os.path.isdir("/data") else Path(__file__).parent / "data"
+DB_PATH = _data_dir / "store.db"
 
 
 def get_conn() -> sqlite3.Connection:
