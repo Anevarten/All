@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmed — Natures Slumber{% endblock %}
+
+{% block content %}
+<section class="py-20 max-w-3xl mx-auto px-4 text-center">
+  <div class="bg-green-50 rounded-3xl p-12 shadow-sm">
+    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+      <i class="fa fa-check text-4xl text-green-500"></i>
+    </div>
+    <h1 class="text-3xl font-bold text-primary mb-2">Order Placed! 🎉</h1>
+    <p class="text-gray-500 mb-6">Thank you, <strong>{{ order.name }}</strong>. We'll contact you shortly to confirm delivery.</p>
+
+    <div class="bg-white rounded-xl p-6 text-left mb-8 shadow-sm">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-bold text-primary">Order Reference</h2>
+        <span class="font-mono font-bold text-accent text-lg">{{ order.ref }}</span>
+      </div>
+      <table class="w-full text-sm text-gray-600">
+        <thead><tr class="border-b"><th class="pb-2 text-left">Item</th><th class="pb-2 text-center">Qty</th><th class="pb-2 text-right">Price</th></tr></thead>
+        <tbody>
+          {% for item in items %}
+          <tr class="border-b border-gray-50">
+            <td class="py-2">{{ item.name }}</td>
+            <td class="py-2 text-center">{{ item.qty }}</td>
+            <td class="py-2 text-right font-semibold">₹{{ "{:,}".format(item.price * item.qty) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr class="font-bold text-primary">
+            <td colspan="2" class="pt-3">Total</td>
+            <td class="pt-3 text-right">₹{{ "{:,}".format(order.total) }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="text-left bg-white rounded-xl p-6 shadow-sm mb-8 grid grid-cols-2 gap-4 text-sm">
+      <div><span class="text-gray-400">Email</span><p class="font-medium">{{ order.email }}</p></div>
+      <div><span class="text-gray-400">Phone</span><p class="font-medium">{{ order.phone }}</p></div>
+      <div class="col-span-2"><span class="text-gray-400">Delivery to</span>
+        <p class="font-medium">{{ order.address }}, {{ order.city }} - {{ order.pincode }}</p></div>
+      <div><span class="text-gray-400">Payment</span><p class="font-medium text-green-600">Cash on Delivery</p></div>
+      <div><span class="text-gray-400">Status</span>
+        <span class="inline-block bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-0.5 rounded">{{ order.status | upper }}</span>
+      </div>
+    </div>
+
+    <div class="flex justify-center gap-4 flex-wrap">
+      <a href="/" class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-hover transition-colors font-semibold">Continue Shopping</a>
+      <a href="/pillows" class="border-2 border-primary text-primary px-8 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors font-semibold">Browse Pillows</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

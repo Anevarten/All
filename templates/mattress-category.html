@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% set active = "mattress" %}
+{% block title %}{{ category }} — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/" class="hover:text-hover">Home</a> &rsaquo;
+    <a href="/mattress" class="hover:text-hover">Mattress</a> &rsaquo;
+    <span class="text-primary font-semibold">{{ category }}</span>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="relative h-64 overflow-hidden">
+  <img src="/assets/{{ img }}" alt="{{ category }}" class="w-full h-full object-cover" />
+  <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+    <div class="text-center text-white">
+      <h1 class="text-4xl font-bold">{{ category }}</h1>
+      <p class="mt-2 text-white/80 max-w-lg">{{ description }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Products grid -->
+<section class="py-16 max-w-7xl mx-auto px-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    {% for p in products %}
+    <div class="border border-gray-100 rounded-xl overflow-hidden shadow hover:shadow-xl transition-shadow group">
+      <div class="relative overflow-hidden bg-gray-50 h-48">
+        <img src="/assets/AdobeStock_181325350_mattress.jpg" alt="{{ p.name }}"
+             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+        <span class="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-0.5 rounded">{{ p.size }}</span>
+      </div>
+      <div class="p-5">
+        <h2 class="font-bold text-primary text-lg leading-tight">{{ p.name }}</h2>
+        <p class="text-gray-500 text-sm mt-2 leading-relaxed">{{ p.desc }}</p>
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <span class="text-xl font-bold text-primary">{{ fmt(p.price) }}</span>
+            <span class="text-sm text-gray-400 line-through ml-2">{{ fmt(p.old) }}</span>
+          </div>
+        </div>
+        <div class="mt-4 flex gap-2">
+          <button onclick="addToCart('{{ p.slug }}','{{ p.name }}',{{ p.price }})"
+                  class="flex-1 bg-primary text-white py-2 rounded hover:bg-hover transition-colors text-sm font-semibold flex items-center justify-center gap-1">
+            <i class="fa fa-shopping-cart"></i> Add to Cart
+          </button>
+          <a href="/contact" class="flex-1 text-center border border-primary text-primary py-2 rounded hover:bg-primary hover:text-white transition-colors text-sm font-semibold">Enquire</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Certifications strip -->
+  <div class="mt-16 flex flex-wrap justify-center gap-8 items-center opacity-70">
+    {% for cert_img in ["gols.jpeg","gots.jpg","oeko-tex-standard-100.jpeg","usda-organic.jpeg","iso9001.jpeg"] %}
+    <img src="/assets/{{ cert_img }}" class="h-12 object-contain grayscale hover:grayscale-0 transition-all" />
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

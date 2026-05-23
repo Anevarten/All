@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% set active = "toppers" %}
+{% block title %}Toppers — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/" class="hover:text-hover">Home</a> &rsaquo; <span class="text-primary font-semibold">Toppers</span>
+  </div>
+</div>
+
+<section class="py-20 max-w-4xl mx-auto px-4 text-center">
+  <i class="fa fa-bed text-6xl text-accent mb-6"></i>
+  <h1 class="text-4xl font-bold text-primary mb-4">Latex Toppers</h1>
+  <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">Transform your existing mattress with a layer of 100% certified organic latex. Our toppers add comfort, support, and longevity to any bed — without a full replacement.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mt-10">
+    <div class="bg-light rounded-xl p-6 shadow-sm">
+      <i class="fa fa-leaf text-3xl text-accent mb-3"></i>
+      <h3 class="font-bold text-primary text-lg mb-2">Natural Latex</h3>
+      <p class="text-gray-500 text-sm">Harvested from organic rubber trees. No synthetic fillers, ever.</p>
+    </div>
+    <div class="bg-light rounded-xl p-6 shadow-sm">
+      <i class="fa fa-arrows-v text-3xl text-accent mb-3"></i>
+      <h3 class="font-bold text-primary text-lg mb-2">Multiple Thicknesses</h3>
+      <p class="text-gray-500 text-sm">Available from 1 inch to 4 inches — choose your perfect comfort layer.</p>
+    </div>
+    <div class="bg-light rounded-xl p-6 shadow-sm">
+      <i class="fa fa-certificate text-3xl text-accent mb-3"></i>
+      <h3 class="font-bold text-primary text-lg mb-2">Certified Organic</h3>
+      <p class="text-gray-500 text-sm">GOLS and OEKO-TEX certified for peace of mind.</p>
+    </div>
+  </div>
+
+  <a href="/contact" class="inline-block mt-12 bg-primary text-white px-8 py-4 rounded-lg hover:bg-hover transition-colors font-bold text-lg">
+    Enquire About Toppers
+  </a>
+</section>
+{% endblock %}

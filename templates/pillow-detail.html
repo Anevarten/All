@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}{{ pillow.name }} — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/" class="hover:text-hover">Home</a> &rsaquo;
+    <a href="/pillows" class="hover:text-hover">Pillows</a> &rsaquo;
+    <span class="text-primary font-semibold">{{ pillow.name }}</span>
+  </div>
+</div>
+
+<section class="py-16 max-w-7xl mx-auto px-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+
+    <!-- Image -->
+    <div class="relative">
+      <span class="absolute top-3 left-3 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded z-10">Sale</span>
+      <img src="/assets/{{ pillow.img }}" alt="{{ pillow.name }}"
+           class="w-full rounded-2xl shadow-xl object-cover aspect-square" />
+    </div>
+
+    <!-- Details -->
+    <div>
+      <h1 class="text-3xl font-bold text-primary">{{ pillow.name }}</h1>
+
+      <!-- Live star rating display -->
+      <div id="rating-display" class="flex items-center gap-2 mt-2">
+        <div id="avg-stars" class="flex gap-0.5 text-gray-300 text-xl"></div>
+        <span id="avg-text" class="text-sm text-gray-500">Loading ratings…</span>
+      </div>
+
+      <!-- Price -->
+      <div class="mt-4 flex items-baseline gap-3">
+        <span class="text-3xl font-bold text-primary">{{ fmt(pillow.price) }}</span>
+        <span class="text-lg text-gray-400 line-through">{{ fmt(pillow.old) }}</span>
+        <span class="text-sm bg-red-100 text-red-600 px-2 py-0.5 rounded font-semibold">
+          {{ ((1 - pillow.price / pillow.old) * 100) | int }}% OFF
+        </span>
+      </div>
+
+      <p class="mt-6 text-gray-600 leading-relaxed text-lg">{{ pillow.desc }}</p>
+
+      <ul class="mt-6 space-y-2 text-sm text-gray-600">
+        <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 100% Natural &amp; Organic Latex</li>
+        <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> GOLS &amp; GOTS Certified</li>
+        <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> Hypoallergenic &amp; Dust Mite Resistant</li>
+        <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> Breathable &amp; Temperature Regulating</li>
+        <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> OEKO-TEX Standard 100 Certified</li>
+      </ul>
+
+      <!-- Add to Cart -->
+      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+        <button onclick="addToCart('{{ pillow.slug }}', '{{ pillow.name }}', {{ pillow.price }})"
+                class="flex-1 bg-primary text-white py-3 px-6 rounded-lg hover:bg-hover transition-colors font-bold text-lg flex items-center justify-center gap-2">
+          <i class="fa fa-shopping-cart"></i> Add to Cart
+        </button>
+        <a href="/cart" class="flex-1 text-center border-2 border-primary text-primary py-3 px-6 rounded-lg hover:bg-primary hover:text-white transition-colors font-bold text-lg">
+          <i class="fa fa-shopping-bag"></i> View Cart
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Rate this product ──────────────────────────────────────── -->
+  <div class="mt-16 bg-light rounded-2xl p-8 max-w-2xl">
+    <h2 class="text-xl font-bold text-primary mb-4">Rate This Product</h2>
+    <div class="flex gap-2 mb-4" id="star-input">
+      {% for n in range(1,6) %}
+      <button class="star-btn text-3xl text-gray-300 fa fa-star" data-val="{{ n }}"
+              onclick="selectStar({{ n }})" onmouseover="hoverStar({{ n }})" onmouseout="resetStars()"></button>
+      {% endfor %}
+    </div>
+    <textarea id="review-text" rows="3" placeholder="Leave a review (optional)…"
+              class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none mb-3"></textarea>
+    <button onclick="submitRating('{{ pillow.slug }}')"
+            class="bg-accent text-white px-6 py-2 rounded-lg hover:bg-hover transition-colors font-semibold text-sm">
+      Submit Rating
+    </button>
+    <p id="rating-msg" class="mt-2 text-sm text-green-600 hidden">Thank you for your rating! ⭐</p>
+  </div>
+
+  <!-- ── Recent Reviews ─────────────────────────────────────────── -->
+  <div class="mt-8 max-w-2xl" id="reviews-section"></div>
+
+  <!-- ── Related Products ───────────────────────────────────────── -->
+  {% if related %}
+  <div class="mt-20">
+    <h2 class="text-2xl font-bold text-primary mb-8">You Might Also Like</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {% for p in related %}
+      <a href="/pillows/{{ p.slug }}" class="group block border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+        <img src="/assets/{{ p.img }}" alt="{{ p.name }}"
+             class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-300 bg-gray-50" />
+        <div class="p-3">
+          <h3 class="text-sm font-semibold text-primary group-hover:text-hover transition-colors">{{ p.name }}</h3>
+          <p class="text-sm mt-1"><span class="font-bold">{{ fmt(p.price) }}</span>
+             <span class="text-gray-400 line-through text-xs ml-1">{{ fmt(p.old) }}</span></p>
+          <button onclick="event.preventDefault(); addToCart('{{ p.slug }}','{{ p.name }}',{{ p.price }})"
+                  class="mt-2 w-full text-xs bg-primary text-white py-1 rounded hover:bg-hover transition-colors">
+            Add to Cart
+          </button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const slug = "{{ pillow.slug }}";
+let chosenStar = 0;
+
+// ── Fetch & render rating ─────────────────────────────────────────────────
+async function loadRatings() {
+  const r = await fetch(`/api/ratings/${slug}`).then(x => x.json());
+  const avg = r.avg || 0, count = r.count || 0;
+  const stars = document.getElementById("avg-stars");
+  stars.innerHTML = "";
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElement("i");
+    s.className = "fa " + (i <= Math.round(avg) ? "fa-star text-yellow-400" : "fa-star-o text-gray-300");
+    stars.appendChild(s);
+  }
+  document.getElementById("avg-text").textContent =
+    count ? `${avg} / 5 (${count} review${count !== 1 ? "s" : ""})` : "No reviews yet — be the first!";
+
+  const sec = document.getElementById("reviews-section");
+  if (r.reviews && r.reviews.length) {
+    sec.innerHTML = `<h3 class="text-lg font-bold text-primary mb-4">Customer Reviews</h3>` +
+      r.reviews.map(rv => `
+        <div class="border-b border-gray-100 py-4">
+          <div class="flex gap-1 mb-1">
+            ${"★".repeat(rv.stars)}${"☆".repeat(5 - rv.stars)}
+          </div>
+          ${rv.review ? `<p class="text-gray-600 text-sm">${rv.review}</p>` : ""}
+          <p class="text-xs text-gray-400 mt-1">${rv.created_at.slice(0,10)}</p>
+        </div>`).join("");
+  }
+}
+
+// ── Star input ────────────────────────────────────────────────────────────
+function hoverStar(n) {
+  document.querySelectorAll("#star-input .star-btn").forEach((b,i) =>
+    b.style.color = i < n ? "#facc15" : "");
+}
+function resetStars() {
+  document.querySelectorAll("#star-input .star-btn").forEach((b,i) =>
+    b.style.color = i < chosenStar ? "#facc15" : "");
+}
+function selectStar(n) { chosenStar = n; resetStars(); }
+
+async function submitRating(slug) {
+  if (!chosenStar) { alert("Please select a star rating first!"); return; }
+  const review = document.getElementById("review-text").value.trim();
+  await fetch("/api/ratings", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ slug, stars: chosenStar, review }),
+  });
+  document.getElementById("rating-msg").classList.remove("hidden");
+  chosenStar = 0;
+  resetStars();
+  document.getElementById("review-text").value = "";
+  loadRatings();
+}
+
+loadRatings();
+</script>
+{% endblock %}

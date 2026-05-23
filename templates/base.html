@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Natures Slumber{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#342c2a",
+            hover:   "#81981b",
+            accent:  "#b0c845",
+            light:   "#f7f7f7",
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    .nav-item:hover > .dropdown-panel { display: block; }
+    .submenu-item:hover > .submenu-panel { display: block; }
+    .nav-link.active { border-bottom: 2px solid #b0c845; }
+    .star-btn { cursor: pointer; transition: color .15s; }
+    .star-btn:hover, .star-btn.selected { color: #facc15; }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+<!-- ═══ HEADER ══════════════════════════════════════════════════════════════ -->
+<header class="bg-primary text-white sticky top-0 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-28">
+
+    <!-- Logo -->
+    <a href="/" class="flex-shrink-0">
+      <img src="/assets/natures-slumber-logo.png" alt="Natures Slumber" class="h-24 object-contain" />
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
+      <a href="/" class="nav-link px-3 py-2 hover:text-accent transition-colors">Home</a>
+
+      <!-- Mattress dropdown -->
+      <div class="nav-item relative">
+        <a href="/mattress" class="nav-link px-3 py-2 hover:text-accent transition-colors flex items-center gap-1">
+          Mattress <i class="fa fa-angle-down text-xs"></i>
+        </a>
+        <div class="dropdown-panel hidden absolute top-full left-0 bg-white text-gray-800 shadow-xl rounded-b-lg min-w-[400px] flex z-50">
+          <div class="submenu-item relative flex-1 border-r border-gray-100">
+            <a href="/mattress/relax" class="block px-5 py-3 font-semibold text-primary hover:bg-light hover:text-hover">
+              Relax Mattress <i class="fa fa-angle-right float-right mt-1"></i>
+            </a>
+            <div class="submenu-panel hidden absolute left-full top-0 bg-white shadow-xl rounded-r-lg min-w-[160px] z-50">
+              <a href="/mattress/relax" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">Double Mattress</a>
+              <a href="/mattress/relax" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">King Mattress</a>
+              <a href="/mattress/relax" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">Queen Mattress</a>
+              <a href="/mattress/relax" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">Single Mattress</a>
+            </div>
+          </div>
+          <div class="submenu-item relative flex-1">
+            <a href="/mattress/value-plus" class="block px-5 py-3 font-semibold text-primary hover:bg-light hover:text-hover">
+              Value Plus <i class="fa fa-angle-right float-right mt-1"></i>
+            </a>
+            <div class="submenu-panel hidden absolute left-full top-0 bg-white shadow-xl rounded-r-lg min-w-[160px] z-50">
+              <a href="/mattress/value-plus" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">Double Mattress</a>
+              <a href="/mattress/value-plus" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">King Mattress</a>
+              <a href="/mattress/value-plus" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">Queen Mattress</a>
+              <a href="/mattress/value-plus" class="block px-4 py-2 hover:bg-light hover:text-hover text-sm">Single Mattress</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillows dropdown -->
+      <div class="nav-item relative">
+        <a href="/pillows" class="nav-link px-3 py-2 hover:text-accent transition-colors flex items-center gap-1">
+          Pillows <i class="fa fa-angle-down text-xs"></i>
+        </a>
+        <div class="dropdown-panel hidden absolute top-full left-0 bg-white text-gray-800 shadow-xl rounded-b-lg z-50 grid grid-cols-3 min-w-[480px]">
+          {% set pillow_links = [
+            ("Back Support","/pillows/back-support"),("Contour","/pillows/contour"),
+            ("DM1","/pillows/dm1"),("DM2","/pillows/dm2"),("DM3","/pillows/dm3"),
+            ("Kids","/pillows/kids"),("King","/pillows/king"),("Moon","/pillows/moon"),
+            ("Queen","/pillows/queen"),("Regular","/pillows/regular"),
+            ("Regular XL","/pillows/regular-xl"),("Standard","/pillows/standard")
+          ] %}
+          {% for name, url in pillow_links %}
+          <a href="{{ url }}" class="px-4 py-2 hover:bg-light hover:text-hover text-sm border-b border-gray-50">{{ name }} Pillow</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <a href="/toppers" class="nav-link px-3 py-2 hover:text-accent transition-colors">Toppers</a>
+      <a href="/about"   class="nav-link px-3 py-2 hover:text-accent transition-colors">Who We Are</a>
+      <a href="/contact" class="nav-link px-3 py-2 hover:text-accent transition-colors">Contact</a>
+    </nav>
+
+    <!-- Right icons -->
+    <div class="flex items-center gap-4">
+      <a href="tel:04447201368" class="hidden lg:flex items-center gap-1.5 text-sm hover:text-accent transition-colors">
+        <i class="fa fa-phone"></i> 044 4720 1368
+      </a>
+      <!-- Cart -->
+      <a href="/cart" class="relative flex items-center gap-1.5 text-sm hover:text-accent transition-colors">
+        <i class="fa fa-shopping-cart text-xl"></i>
+        <span id="cart-count"
+              class="hidden absolute -top-2 -right-2 bg-accent text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+      </a>
+      <!-- Mobile hamburger -->
+      <button id="mobileMenuBtn" class="lg:hidden p-2">
+        <i class="fa fa-bars text-xl"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden lg:hidden bg-primary border-t border-white/20 px-4 pb-4">
+    <a href="/"                    class="block py-2 border-b border-white/10 hover:text-accent">Home</a>
+    <a href="/mattress"            class="block py-2 border-b border-white/10 hover:text-accent">Mattress</a>
+    <a href="/mattress/relax"      class="block py-1 pl-4 text-sm text-white/70 hover:text-accent">↳ Relax Mattress</a>
+    <a href="/mattress/value-plus" class="block py-1 pl-4 text-sm text-white/70 hover:text-accent">↳ Value Plus</a>
+    <a href="/pillows"             class="block py-2 border-b border-white/10 hover:text-accent">Pillows</a>
+    <a href="/toppers"             class="block py-2 border-b border-white/10 hover:text-accent">Toppers</a>
+    <a href="/about"               class="block py-2 border-b border-white/10 hover:text-accent">Who We Are</a>
+    <a href="/contact"             class="block py-2 border-b border-white/10 hover:text-accent">Contact</a>
+    <a href="/cart"                class="block py-2 hover:text-accent">🛒 Cart</a>
+  </div>
+</header>
+
+<!-- ═══ MAIN ═════════════════════════════════════════════════════════════════ -->
+<main>{% block content %}{% endblock %}</main>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════════════════════════ -->
+<footer class="bg-primary text-white mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div>
+      <h5 class="font-bold uppercase tracking-wider mb-3 text-accent">Contact</h5>
+      <p class="text-sm text-white/80 leading-relaxed">
+        Aniva Furnitures Land<br/>29, Dr. Radhakrishnan Nagar,<br/>Poonamallee High Road,<br/>Arumbakkam, Chennai - 600 106
+      </p>
+      <p class="text-sm text-white/80 mt-2">Tel: 044 - 4720 1368</p>
+      <a href="mailto:anivafurn@yahoo.co.in" class="text-sm text-accent hover:underline">anivafurn@yahoo.co.in</a>
+    </div>
+    <div>
+      <h5 class="font-bold uppercase tracking-wider mb-3 text-accent">Information</h5>
+      <ul class="space-y-1 text-sm text-white/80">
+        <li><a href="/about"   class="hover:text-accent">Who We Are</a></li>
+        <li><a href="/mattress" class="hover:text-accent">Types of Latex Mattresses</a></li>
+        <li><a href="/contact" class="hover:text-accent">Delivery &amp; Returns</a></li>
+        <li><a href="/contact" class="hover:text-accent">Terms &amp; Conditions</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-bold uppercase tracking-wider mb-3 text-accent">Shop</h5>
+      <ul class="space-y-1 text-sm text-white/80">
+        <li><a href="/mattress" class="hover:text-accent">Mattresses</a></li>
+        <li><a href="/pillows"  class="hover:text-accent">Pillows</a></li>
+        <li><a href="/toppers"  class="hover:text-accent">Toppers</a></li>
+        <li><a href="/cart"     class="hover:text-accent">My Cart</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-bold uppercase tracking-wider mb-3 text-accent">Follow Us</h5>
+      <div class="flex gap-3 mt-1">
+        <a href="https://www.facebook.com/naturestouchindia" target="_blank" class="hover:text-accent text-xl"><i class="fa fa-facebook"></i></a>
+        <a href="https://twitter.com/naturestouchindia"      target="_blank" class="hover:text-accent text-xl"><i class="fa fa-twitter"></i></a>
+        <a href="https://youtube.com/@naturestouchlatex"     target="_blank" class="hover:text-accent text-xl"><i class="fa fa-youtube-play"></i></a>
+        <a href="https://instagram.com/naturestouchindia"    target="_blank" class="hover:text-accent text-xl"><i class="fa fa-instagram"></i></a>
+      </div>
+      <img src="/assets/payment.png" alt="Payment methods" class="mt-4 h-8 object-contain opacity-80" />
+    </div>
+  </div>
+  <div class="border-t border-white/20 text-center py-4 text-xs text-white/50">
+    Powered by ntouch.rigpa.in — Aniva Furnitures Land © 2026
+  </div>
+</footer>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+  class="hidden fixed bottom-6 right-6 bg-accent text-white w-10 h-10 rounded-full shadow-lg items-center justify-center hover:bg-hover transition-colors z-40 flex">
+  <i class="fa fa-angle-up"></i>
+</button>
+
+<!-- ═══ GLOBAL CART JS ════════════════════════════════════════════════════ -->
+<script>
+const CART_KEY = "ns_cart";
+
+function cartGet()          { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
+function cartSave(c)        { localStorage.setItem(CART_KEY, JSON.stringify(c)); updateCartBadge(); }
+function updateCartBadge()  {
+  const n = cartGet().reduce((s,i) => s + i.qty, 0);
+  const el = document.getElementById("cart-count");
+  if (!el) return;
+  el.textContent = n;
+  el.classList.toggle("hidden", n === 0);
+  el.classList.toggle("flex",   n > 0);
+}
+
+function addToCart(slug, name, price) {
+  const cart = cartGet();
+  const existing = cart.find(i => i.slug === slug);
+  if (existing) { existing.qty++; }
+  else { cart.push({ slug, name, price, qty: 1 }); }
+  cartSave(cart);
+  showToast(`✅ ${name} added to cart!`);
+}
+
+function showToast(msg) {
+  const t = document.createElement("div");
+  t.className = "fixed bottom-20 left-1/2 -translate-x-1/2 bg-primary text-white px-6 py-3 rounded-full shadow-xl z-50 text-sm font-medium transition-opacity";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.style.opacity = "0", 2000);
+  setTimeout(() => t.remove(), 2500);
+}
+
+document.getElementById("mobileMenuBtn").addEventListener("click", () =>
+  document.getElementById("mobileMenu").classList.toggle("hidden"));
+window.addEventListener("scroll", () =>
+  document.getElementById("backToTop").classList.toggle("hidden", window.scrollY < 300));
+
+updateCartBadge();
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

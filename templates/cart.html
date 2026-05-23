@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Your Cart — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/" class="hover:text-hover">Home</a> &rsaquo; <span class="text-primary font-semibold">Cart</span>
+  </div>
+</div>
+
+<section class="py-12 max-w-5xl mx-auto px-4">
+  <h1 class="text-3xl font-bold text-primary mb-8 flex items-center gap-3">
+    <i class="fa fa-shopping-cart text-accent"></i> Your Cart
+  </h1>
+
+  <!-- Empty state -->
+  <div id="empty-cart" class="hidden text-center py-20">
+    <i class="fa fa-shopping-bag text-7xl text-gray-200 mb-6"></i>
+    <p class="text-xl text-gray-400 mb-6">Your cart is empty</p>
+    <div class="flex justify-center gap-4 flex-wrap">
+      <a href="/pillows"  class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-hover transition-colors font-semibold">Shop Pillows</a>
+      <a href="/mattress" class="border-2 border-primary text-primary px-8 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors font-semibold">Shop Mattresses</a>
+    </div>
+  </div>
+
+  <!-- Cart table -->
+  <div id="cart-content" class="hidden">
+    <div class="overflow-x-auto rounded-xl shadow-sm border border-gray-100">
+      <table class="w-full text-sm">
+        <thead class="bg-primary text-white">
+          <tr>
+            <th class="px-6 py-3 text-left">Product</th>
+            <th class="px-6 py-3 text-center">Qty</th>
+            <th class="px-6 py-3 text-right">Unit Price</th>
+            <th class="px-6 py-3 text-right">Subtotal</th>
+            <th class="px-6 py-3 text-center">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="cart-rows" class="divide-y divide-gray-100 bg-white"></tbody>
+      </table>
+    </div>
+
+    <!-- Totals -->
+    <div class="mt-6 flex justify-end">
+      <div class="bg-light rounded-xl p-6 w-full max-w-sm space-y-3">
+        <div class="flex justify-between text-sm text-gray-600">
+          <span>Subtotal</span><span id="subtotal-val" class="font-semibold"></span>
+        </div>
+        <div class="flex justify-between text-sm text-gray-600">
+          <span>Shipping</span><span class="text-green-600 font-semibold">Free</span>
+        </div>
+        <div class="flex justify-between font-bold text-lg text-primary border-t pt-3">
+          <span>Total</span><span id="total-val"></span>
+        </div>
+        <a href="/checkout"
+           class="block w-full text-center bg-primary text-white py-3 rounded-lg hover:bg-hover transition-colors font-bold mt-2">
+          Proceed to Checkout <i class="fa fa-arrow-right ml-1"></i>
+        </a>
+        <button onclick="if(confirm('Clear cart?')){localStorage.removeItem('ns_cart');renderCart();}"
+                class="block w-full text-center text-sm text-gray-400 hover:text-red-500 transition-colors">
+          Clear cart
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function fmt(n) { return "₹" + n.toLocaleString("en-IN"); }
+
+function renderCart() {
+  const cart = cartGet();
+  const empty   = document.getElementById("empty-cart");
+  const content = document.getElementById("cart-content");
+  const rows    = document.getElementById("cart-rows");
+
+  if (!cart.length) {
+    empty.classList.remove("hidden");
+    content.classList.add("hidden");
+    return;
+  }
+  empty.classList.add("hidden");
+  content.classList.remove("hidden");
+
+  let total = 0;
+  rows.innerHTML = cart.map((item, idx) => {
+    const sub = item.price * item.qty;
+    total += sub;
+    return `<tr>
+      <td class="px-6 py-4 font-medium text-primary">${item.name}</td>
+      <td class="px-6 py-4 text-center">
+        <div class="flex items-center justify-center gap-2">
+          <button onclick="changeQty(${idx},-1)" class="w-7 h-7 rounded-full border border-gray-300 hover:bg-gray-100 font-bold text-lg leading-none">−</button>
+          <span class="w-6 text-center">${item.qty}</span>
+          <button onclick="changeQty(${idx},+1)" class="w-7 h-7 rounded-full border border-gray-300 hover:bg-gray-100 font-bold text-lg leading-none">+</button>
+        </div>
+      </td>
+      <td class="px-6 py-4 text-right">${fmt(item.price)}</td>
+      <td class="px-6 py-4 text-right font-semibold">${fmt(sub)}</td>
+      <td class="px-6 py-4 text-center">
+        <button onclick="removeItem(${idx})" class="text-red-400 hover:text-red-600 transition-colors">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("subtotal-val").textContent = fmt(total);
+  document.getElementById("total-val").textContent     = fmt(total);
+}
+
+function changeQty(idx, delta) {
+  const cart = cartGet();
+  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+  cartSave(cart);
+  renderCart();
+}
+
+function removeItem(idx) {
+  const cart = cartGet();
+  cart.splice(idx, 1);
+  cartSave(cart);
+  renderCart();
+}
+
+renderCart();
+</script>
+{% endblock %}

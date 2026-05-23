@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Order {{ order.ref }} — Admin{% endblock %}
+
+{% block content %}
+<div class="bg-primary text-white py-6 mb-8">
+  <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
+    <div>
+      <a href="/admin" class="text-white/60 hover:text-white text-sm mb-1 inline-block">← Back to Dashboard</a>
+      <h1 class="text-2xl font-bold font-mono">{{ order.ref }}</h1>
+    </div>
+    <span class="bg-white/20 text-white text-sm px-4 py-1.5 rounded-full capitalize font-semibold">{{ order.status }}</span>
+  </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 pb-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+  <!-- Order items -->
+  <div class="md:col-span-2 space-y-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <h2 class="font-bold text-primary mb-4">Items Ordered</h2>
+      <table class="w-full text-sm">
+        <thead class="text-gray-400 uppercase text-xs border-b">
+          <tr><th class="pb-2 text-left">Product</th><th class="pb-2 text-center">Qty</th><th class="pb-2 text-right">Price</th><th class="pb-2 text-right">Subtotal</th></tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50">
+          {% for item in items %}
+          <tr>
+            <td class="py-3 font-medium">{{ item.name }}</td>
+            <td class="py-3 text-center">{{ item.qty }}</td>
+            <td class="py-3 text-right">₹{{ "{:,}".format(item.price) }}</td>
+            <td class="py-3 text-right font-semibold">₹{{ "{:,}".format(item.price * item.qty) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot class="border-t font-bold text-primary">
+          <tr><td colspan="3" class="pt-3">Order Total</td><td class="pt-3 text-right">₹{{ "{:,}".format(order.total) }}</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Customer info -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <h2 class="font-bold text-primary mb-4">Customer Details</h2>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div><p class="text-gray-400 text-xs mb-0.5">Name</p><p class="font-medium">{{ order.name }}</p></div>
+        <div><p class="text-gray-400 text-xs mb-0.5">Email</p><p class="font-medium">{{ order.email }}</p></div>
+        <div><p class="text-gray-400 text-xs mb-0.5">Phone</p><p class="font-medium">{{ order.phone }}</p></div>
+        <div><p class="text-gray-400 text-xs mb-0.5">City</p><p class="font-medium">{{ order.city }}</p></div>
+        <div class="col-span-2"><p class="text-gray-400 text-xs mb-0.5">Address</p><p class="font-medium">{{ order.address }}, {{ order.city }} - {{ order.pincode }}</p></div>
+        {% if order.notes %}
+        <div class="col-span-2"><p class="text-gray-400 text-xs mb-0.5">Notes</p><p class="font-medium">{{ order.notes }}</p></div>
+        {% endif %}
+        <div><p class="text-gray-400 text-xs mb-0.5">Ordered At</p><p class="font-medium">{{ order.created_at[:16].replace("T"," ") }}</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status update -->
+  <div class="space-y-4">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <h2 class="font-bold text-primary mb-4">Update Status</h2>
+      <form method="POST" action="/admin/{{ order.ref }}/status" class="space-y-3">
+        {% for s in statuses %}
+        <label class="flex items-center gap-3 p-3 rounded-lg cursor-pointer
+                      {% if order.status == s %}bg-accent/10 border border-accent{% else %}hover:bg-light border border-transparent{% endif %}">
+          <input type="radio" name="status" value="{{ s }}" {% if order.status == s %}checked{% endif %} class="accent-accent" />
+          <span class="capitalize text-sm font-medium">{{ s }}</span>
+        </label>
+        {% endfor %}
+        <button type="submit"
+                class="w-full bg-primary text-white py-2.5 rounded-lg hover:bg-hover transition-colors font-semibold text-sm mt-2">
+          <i class="fa fa-save mr-1"></i> Save Status
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

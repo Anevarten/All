@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Checkout — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/">Home</a> &rsaquo; <a href="/cart" class="hover:text-hover">Cart</a> &rsaquo;
+    <span class="text-primary font-semibold">Checkout</span>
+  </div>
+</div>
+
+<section class="py-12 max-w-6xl mx-auto px-4">
+  <h1 class="text-3xl font-bold text-primary mb-8"><i class="fa fa-lock text-accent mr-2"></i>Checkout</h1>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+    <!-- Form -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 class="font-bold text-primary text-lg mb-4">Delivery Details</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+            <input id="f-name" type="text" required placeholder="Jane Doe"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+            <input id="f-email" type="email" required placeholder="jane@example.com"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+            <input id="f-phone" type="tel" required placeholder="+91 98765 43210"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+            <input id="f-address" type="text" required placeholder="House no, Street, Area"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">City *</label>
+            <input id="f-city" type="text" required placeholder="Chennai"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">PIN Code *</label>
+            <input id="f-pincode" type="text" required placeholder="6001"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Order Notes (optional)</label>
+            <textarea id="f-notes" rows="2" placeholder="Any special instructions…"
+                      class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 class="font-bold text-primary text-lg mb-4">Payment Method</h2>
+        <label class="flex items-center gap-3 cursor-pointer">
+          <input type="radio" name="payment" checked class="accent-accent w-4 h-4" />
+          <span class="text-sm font-medium">Cash on Delivery (COD)</span>
+          <span class="ml-auto text-xs text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded">Available</span>
+        </label>
+      </div>
+
+      <p id="err-msg" class="text-red-500 text-sm hidden"></p>
+
+      <button id="place-btn" onclick="placeOrder()"
+              class="w-full bg-primary text-white py-4 rounded-xl hover:bg-hover transition-colors font-bold text-lg flex items-center justify-center gap-2">
+        <i class="fa fa-check-circle"></i> Place Order
+      </button>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="bg-light rounded-xl p-6 h-fit">
+      <h2 class="font-bold text-primary text-lg mb-4">Order Summary</h2>
+      <div id="summary-rows" class="space-y-3 text-sm text-gray-600 mb-4"></div>
+      <div class="border-t pt-4 flex justify-between font-bold text-primary">
+        <span>Total</span><span id="summary-total"></span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function fmt(n) { return "₹" + n.toLocaleString("en-IN"); }
+
+function renderSummary() {
+  const cart  = cartGet();
+  const rows  = document.getElementById("summary-rows");
+  let total = 0;
+  if (!cart.length) { window.location = "/cart"; return; }
+  rows.innerHTML = cart.map(i => {
+    total += i.price * i.qty;
+    return `<div class="flex justify-between"><span>${i.name} ×${i.qty}</span><span class="font-semibold">${fmt(i.price * i.qty)}</span></div>`;
+  }).join("");
+  document.getElementById("summary-total").textContent = fmt(total);
+}
+
+async function placeOrder() {
+  const cart = cartGet();
+  if (!cart.length) { alert("Your cart is empty!"); return; }
+
+  const fields = { name:"f-name", email:"f-email", phone:"f-phone",
+                   address:"f-address", city:"f-city", pincode:"f-pincode" };
+  const data = {};
+  for (const [k, id] of Object.entries(fields)) {
+    const v = document.getElementById(id).value.trim();
+    if (!v) { showErr(`Please fill in ${k}.`); document.getElementById(id).focus(); return; }
+    data[k] = v;
+  }
+  data.notes = document.getElementById("f-notes").value.trim();
+
+  const btn = document.getElementById("place-btn");
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> Placing order…';
+
+  const res = await fetch("/api/checkout", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ ...data, items: cart.map(i => ({ slug: i.slug, qty: i.qty })) }),
+  });
+  const json = await res.json();
+
+  if (!res.ok) { showErr(json.error || "Something went wrong."); btn.disabled = false; btn.textContent = "Place Order"; return; }
+  localStorage.removeItem("ns_cart");
+  updateCartBadge();
+  window.location = `/order/${json.ref}`;
+}
+
+function showErr(msg) {
+  const el = document.getElementById("err-msg");
+  el.textContent = msg;
+  el.classList.remove("hidden");
+}
+
+renderSummary();
+</script>
+{% endblock %}

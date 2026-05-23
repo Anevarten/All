@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% set active = "contact" %}
+{% block title %}Contact Us — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/" class="hover:text-hover">Home</a> &rsaquo; <span class="text-primary font-semibold">Contact</span>
+  </div>
+</div>
+
+<section class="py-16 max-w-6xl mx-auto px-4">
+  <h1 class="text-4xl font-bold text-primary mb-2">Get In Touch</h1>
+  <p class="text-gray-500 mb-12">We'd love to hear from you. Visit our showroom or drop us a message.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+    <!-- Contact Info -->
+    <div>
+      <div class="space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fa fa-map-marker text-accent"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-primary">Address</h3>
+            <p class="text-gray-600 text-sm leading-relaxed mt-1">
+              Aniva Furnitures Land<br/>
+              29, Dr. Radhakrishnan Nagar,<br/>
+              Poonamallee High Road,<br/>
+              (Opp. D.G. Vaishnav College)<br/>
+              Arumbakkam, Chennai - 600 106
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fa fa-phone text-accent"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-primary">Phone</h3>
+            <a href="tel:04447201368" class="text-gray-600 hover:text-hover text-sm mt-1 block">044 - 4720 1368</a>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fa fa-envelope text-accent"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-primary">Email</h3>
+            <a href="mailto:anivafurn@yahoo.co.in" class="text-gray-600 hover:text-hover text-sm mt-1 block">anivafurn@yahoo.co.in</a>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fa fa-clock-o text-accent"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-primary">Hours</h3>
+            <p class="text-gray-600 text-sm mt-1">Mon–Sat: 10:00 AM – 8:00 PM</p>
+            <p class="text-gray-600 text-sm">Sun: 11:00 AM – 6:00 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="mt-8 flex gap-4">
+        <a href="https://www.facebook.com/naturestouchindia" target="_blank"
+           class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-hover transition-colors">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a href="https://twitter.com/naturestouchindia" target="_blank"
+           class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-hover transition-colors">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <a href="https://youtube.com/@naturestouchlatex" target="_blank"
+           class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-hover transition-colors">
+          <i class="fa fa-youtube-play"></i>
+        </a>
+        <a href="https://instagram.com/naturestouchindia" target="_blank"
+           class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-hover transition-colors">
+          <i class="fa fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="bg-light rounded-2xl p-8 shadow-sm">
+      <h2 class="text-xl font-bold text-primary mb-6">Send Us a Message</h2>
+      <form onsubmit="handleSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+          <input type="text" required placeholder="Jane Doe"
+                 class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+          <input type="email" required placeholder="jane@example.com"
+                 class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
+          <input type="tel" placeholder="+91 98765 43210"
+                 class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Interested In</label>
+          <select class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent">
+            <option>Mattress</option>
+            <option>Pillow</option>
+            <option>Topper</option>
+            <option>General Enquiry</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+          <textarea rows="4" required placeholder="How can we help you?"
+                    class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent resize-none"></textarea>
+        </div>
+        <button type="submit"
+                class="w-full bg-primary text-white py-3 rounded-lg hover:bg-hover transition-colors font-bold text-sm">
+          Send Message
+        </button>
+      </form>
+      <div id="successMsg" class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-lg text-sm text-center">
+        ✅ Thank you! We'll be in touch shortly.
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('successMsg').classList.remove('hidden');
+    e.target.reset();
+  }
+</script>
+{% endblock %}

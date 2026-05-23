@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Pillows — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/" class="hover:text-hover">Home</a> &rsaquo; <span class="text-primary font-semibold">Pillows</span>
+  </div>
+</div>
+
+<div class="relative h-52 overflow-hidden">
+  <img src="/assets/AdobeStock_21447326_pillow.jpg" alt="Pillows" class="w-full h-full object-cover" />
+  <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+    <div class="text-center text-white">
+      <h1 class="text-4xl font-bold">Our Pillows</h1>
+      <p class="mt-2 text-white/80">100% certified organic latex — in every shape you need</p>
+    </div>
+  </div>
+</div>
+
+<section class="py-16 max-w-7xl mx-auto px-4">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for p in pillows %}
+    <div class="group border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl transition-shadow flex flex-col">
+      <a href="/pillows/{{ p.slug }}" class="block relative overflow-hidden bg-gray-50">
+        <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded z-10">Sale</span>
+        <img src="/assets/{{ p.img }}" alt="{{ p.name }}"
+             class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-300" />
+      </a>
+      <div class="p-4 flex flex-col flex-1">
+        <a href="/pillows/{{ p.slug }}">
+          <h3 class="font-semibold text-primary hover:text-hover transition-colors text-sm leading-tight">{{ p.name }}</h3>
+        </a>
+        <div class="flex gap-0.5 mt-1">
+          {% for _ in range(5) %}<i class="fa fa-star text-yellow-400 text-xs"></i>{% endfor %}
+        </div>
+        <p class="mt-2 text-sm">
+          <span class="font-bold text-primary">{{ fmt(p.price) }}</span>
+          <span class="text-gray-400 line-through text-xs ml-1">{{ fmt(p.old) }}</span>
+        </p>
+        <div class="mt-auto pt-3 flex gap-1">
+          <a href="/pillows/{{ p.slug }}"
+             class="flex-1 text-center text-xs bg-primary text-white py-1.5 rounded hover:bg-hover transition-colors">Details</a>
+          <button onclick="addToCart('{{ p.slug }}','{{ p.name }}',{{ p.price }})"
+                  class="flex-1 text-xs bg-accent text-white py-1.5 rounded hover:bg-hover transition-colors">
+            <i class="fa fa-cart-plus"></i> Cart
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

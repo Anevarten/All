@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% set active = "home" %}
+
+{% block content %}
+
+<!-- ── Hero Slider ─────────────────────────────────────────────────────── -->
+<div class="relative overflow-hidden bg-black" style="height: 520px;">
+  {% for img, caption in banners %}
+  <div class="slide absolute inset-0 transition-opacity duration-700 {% if loop.first %}opacity-100{% else %}opacity-0{% endif %}">
+    <img src="/assets/{{ img }}" alt="{{ caption }}"
+         class="w-full h-full object-cover opacity-80" />
+    <div class="absolute inset-0 flex items-center justify-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white drop-shadow-xl tracking-wide text-center px-4">{{ caption }}</h1>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- Arrows -->
+  <button id="prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-10 h-10 rounded-full flex items-center justify-center z-10">
+    <i class="fa fa-angle-left text-xl"></i>
+  </button>
+  <button id="next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-10 h-10 rounded-full flex items-center justify-center z-10">
+    <i class="fa fa-angle-right text-xl"></i>
+  </button>
+  <!-- Dots -->
+  <div id="dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+    {% for img, _ in banners %}
+    <button class="dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white {% if loop.first %}bg-white{% endif %}" data-idx="{{ loop.index0 }}"></button>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ── Certifications ──────────────────────────────────────────────────── -->
+<section class="py-10 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-center text-2xl font-bold text-primary mb-8">Our Certifications</h2>
+    <div class="flex flex-wrap justify-center gap-6">
+      {% for cert in certifications %}
+      <div class="group relative flex flex-col items-center w-28 cursor-default">
+        <img src="/assets/{{ cert.img }}" alt="{{ cert.name }}" class="h-16 object-contain group-hover:scale-110 transition-transform" />
+        <span class="text-xs text-center mt-2 text-gray-600 font-medium">{{ cert.name }}</span>
+        <!-- Tooltip -->
+        <div class="hidden group-hover:block absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-primary text-white text-xs rounded px-3 py-2 w-48 text-center z-10 shadow-lg">
+          <strong>{{ cert.head }}</strong><br/>{{ cert.desc }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── Feature Bar ────────────────────────────────────────────────────── -->
+<section class="py-6 bg-accent">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-white text-center">
+    <div class="flex flex-col items-center gap-2">
+      <img src="/assets/natural.png" alt="Organic" class="h-10 object-contain" />
+      <span class="font-bold text-lg">Organic &amp; 100% Natural</span>
+    </div>
+    <div class="flex flex-col items-center gap-2">
+      <img src="/assets/co2.png" alt="Carbon" class="h-10 object-contain" />
+      <span class="font-bold text-lg">Carbon Neutralized</span>
+    </div>
+    <div class="flex flex-col items-center gap-2">
+      <img src="/assets/quality.png" alt="Quality" class="h-10 object-contain" />
+      <span class="font-bold text-lg">High in Quality</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── From Tree Sap Section ──────────────────────────────────────────── -->
+<section class="py-16 bg-light">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
+    <img src="/assets/process.png" alt="The Process" class="w-full md:w-1/2 rounded-lg shadow" />
+    <div class="md:w-1/2">
+      <p class="text-sm font-semibold text-hover uppercase tracking-widest mb-2">Latex Mattresses and Pillows</p>
+      <h2 class="text-4xl font-bold text-primary leading-tight mb-4">From Tree Sap<br/>to Your Bed</h2>
+      <p class="text-gray-600 mb-6">We trace every product back to its natural origin. Our certified organic latex is harvested sustainably and transformed into the most comfortable sleep surface you've ever experienced.</p>
+      <a href="/mattress" class="inline-block bg-primary text-white px-6 py-3 rounded hover:bg-hover transition-colors font-semibold">Shop Mattresses</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pillows Section ────────────────────────────────────────────────── -->
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-10">
+    <img src="/assets/AdobeStock_21447326_pillow.jpg" alt="Pillows" class="w-full md:w-1/2 rounded-lg shadow" />
+    <div class="md:w-1/2">
+      <p class="text-sm font-semibold text-hover uppercase tracking-widest mb-2">Certified Organic Latex</p>
+      <h2 class="text-4xl font-bold text-primary leading-tight mb-4">Pillows</h2>
+      <p class="text-gray-600 mb-6">We provide a range of pillows made from 100% natural and certified organic latex. Available in a variety of sizes and styles — including contour, kids, moon, and more.</p>
+      <a href="/pillows" class="inline-block bg-primary text-white px-6 py-3 rounded hover:bg-hover transition-colors font-semibold">Shop Pillows</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Comfort Feature Bar ────────────────────────────────────────────── -->
+<section class="py-6 bg-gray-100">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-primary">
+    <div class="flex flex-col items-center gap-2 p-4">
+      <img src="/assets/comfort1.png" alt="Sleep Partner" class="h-12 object-contain" />
+      <span class="font-semibold">YOUR SLEEP PARTNER</span>
+    </div>
+    <div class="flex flex-col items-center gap-2 p-4">
+      <img src="/assets/comfort2.png" alt="Comfortable" class="h-12 object-contain" />
+      <span class="font-semibold">COMFORTABLE</span>
+    </div>
+    <div class="flex flex-col items-center gap-2 p-4">
+      <img src="/assets/comfort3.png" alt="Organic" class="h-12 object-contain" />
+      <span class="font-semibold">CERTIFIED ORGANIC</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Mattress Cores Section ─────────────────────────────────────────── -->
+<section class="py-16 bg-light">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
+    <img src="/assets/AdobeStock_181325350_mattress.jpg" alt="Latex Mattresses" class="w-full md:w-1/2 rounded-lg shadow" />
+    <div class="md:w-1/2">
+      <p class="text-sm font-semibold text-hover uppercase tracking-widest mb-2">100% Natural Latex</p>
+      <h2 class="text-4xl font-bold text-primary leading-tight mb-4">Mattress Cores</h2>
+      <p class="text-gray-600 mb-6">We provide a choice of different sizes of 100% natural and organic latex foam cores. Thicknesses range from one inch to six inches — perfect for any bed frame.</p>
+      <a href="/mattress" class="inline-block bg-primary text-white px-6 py-3 rounded hover:bg-hover transition-colors font-semibold">Shop Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Featured Products ───────────────────────────────────────────────── -->
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-primary text-center mb-10">Featured Products</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {% for p in featured_pillows %}
+      <a href="/pillows/{{ p.slug }}" class="group block border border-gray-100 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <div class="relative overflow-hidden bg-gray-50">
+          <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded z-10">Sale</span>
+          <img src="/assets/{{ p.img }}" alt="{{ p.name }}"
+               class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-300" />
+        </div>
+        <div class="p-3">
+          <h3 class="text-sm font-semibold text-primary group-hover:text-hover transition-colors truncate">{{ p.name }}</h3>
+          <div class="flex items-center gap-1 mt-1">
+            {% for _ in range(5) %}<i class="fa fa-star text-yellow-400 text-xs"></i>{% endfor %}
+          </div>
+          <p class="mt-1 text-sm">
+            <span class="font-bold text-primary">{{ p.price }}</span>
+            <span class="text-gray-400 line-through text-xs ml-1">{{ p.old }}</span>
+          </p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-8">
+      <a href="/pillows" class="inline-block border-2 border-primary text-primary px-8 py-3 rounded hover:bg-primary hover:text-white transition-colors font-semibold">View All Products</a>
+    </div>
+  </div>
+</section>
+
+<!-- Slider JS -->
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.dot');
+  let cur = 0, timer;
+
+  function show(n) {
+    slides[cur].classList.replace('opacity-100','opacity-0');
+    dots[cur].classList.remove('bg-white');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.replace('opacity-0','opacity-100');
+    dots[cur].classList.add('bg-white');
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => show(cur + 1), 4000);
+  }
+
+  document.getElementById('prev').addEventListener('click', () => { show(cur - 1); startTimer(); });
+  document.getElementById('next').addEventListener('click', () => { show(cur + 1); startTimer(); });
+  dots.forEach(d => d.addEventListener('click', () => { show(+d.dataset.idx); startTimer(); }));
+  startTimer();
+</script>
+{% endblock %}

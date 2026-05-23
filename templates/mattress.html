@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% set active = "mattress" %}
+{% block title %}Mattress — Natures Slumber{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 border-b">
+  <div class="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <a href="/" class="hover:text-hover">Home</a> &rsaquo; <span class="text-primary font-semibold">Mattress</span>
+  </div>
+</div>
+
+<section class="py-16 max-w-7xl mx-auto px-4">
+  <h1 class="text-4xl font-bold text-primary mb-4">Our Mattresses</h1>
+  <p class="text-gray-600 max-w-2xl mb-12">Handcrafted from 100% certified organic latex, our mattresses offer unmatched support, breathability, and durability — so you can sleep the way nature intended.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+    <!-- Relax Mattress -->
+    <a href="/mattress/relax" class="group block relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+      <img src="/assets/AdobeStock_181325350_mattress.jpg" alt="Relax Mattress" class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Relax Mattress</h2>
+          <p class="text-white/80 text-sm mt-1">Premium comfort in Double, King, Queen &amp; Single</p>
+          <span class="inline-block mt-3 bg-accent text-white text-sm px-4 py-1.5 rounded hover:bg-hover transition-colors">Shop Now &rarr;</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Value Plus Mattress -->
+    <a href="/mattress/value-plus" class="group block relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
+      <img src="/assets/AdobeStock_208470960-1920x680.jpg" alt="Value Plus Mattress" class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Value Plus Mattress</h2>
+          <p class="text-white/80 text-sm mt-1">All the quality at an exceptional price</p>
+          <span class="inline-block mt-3 bg-accent text-white text-sm px-4 py-1.5 rounded hover:bg-hover transition-colors">Shop Now &rarr;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Why Latex? -->
+  <div class="mt-16 bg-primary text-white rounded-2xl p-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="text-center">
+      <i class="fa fa-leaf text-4xl text-accent mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">100% Natural</h3>
+      <p class="text-white/70 text-sm">Harvested from rubber trees with no synthetic additives.</p>
+    </div>
+    <div class="text-center">
+      <i class="fa fa-certificate text-4xl text-accent mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Multi-Certified</h3>
+      <p class="text-white/70 text-sm">GOLS, GOTS, OEKO-TEX, USDA Organic and more.</p>
+    </div>
+    <div class="text-center">
+      <i class="fa fa-heart text-4xl text-accent mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Hypoallergenic</h3>
+      <p class="text-white/70 text-sm">Naturally resistant to dust mites, mold, and bacteria.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
